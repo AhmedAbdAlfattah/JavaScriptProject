@@ -1,0 +1,142 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+.bird
+{
+    width:100px;
+    height:100px;
+    position: absolute;
+    display: inline-block;
+}
+
+.enemy
+{
+    position: absolute;
+
+    right: 20px;
+    top: 0;
+    width:100px;
+    height:100px;
+
+}
+
+.bullet
+{
+    width:50px;
+    height: 25px;
+    position: absolute;
+}
+
+#enemy3
+{
+    top:50px;
+}
+
+*{
+    margin: 0;
+    padding: 0;
+}
+.bird
+{
+    width:100px;
+    height:100px;
+    position: absolute;
+    display: inline-block;
+}
+
+.enemy
+{
+    position: absolute;
+
+    right: 20px;
+    top: 0;
+    width:100px;
+    height:100px;
+
+}
+
+.bullet
+{
+    width:50px;
+    height: 25px;
+    position: absolute;
+}
+
+#enemy3
+{
+    top:50px;
+}
+
+.end
+{
+    position: absolute;
+    top: 33%;
+    left: 35%;
+    text-align: center;
+    background: blueviolet;
+    padding: 50px;
+    border: 2px solid #000;
+    z-index: 9999;
+
+}
+.end h2
+{
+    color: white;
+    font-family: sans-serif;
+    padding-bottom: 30px;
+}
+
+.end button
+{
+    padding: 5px;
+    margin: 5px;
+    border: none;
+    cursor: pointer;
+}
+
+.dim
+{
+    background: #000;
+    opacity: .4;
+    position: absolute;
+    z-index: 999;
+}
+
+.score
+{
+    position: absolute;
+    bottom: 0;
+    right: 50%;
+    background: crimson;
+    color: rgb(172, 152, 152);
+    width: 150px;
+    height: 41px;
+    border: 2px solid #000;
+    text-align: center;
+    padding: 5px;
+    padding-bottom: 15px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    font-size: 1.2em;
+    border-radius: 20%;
+
+}
+
+a
+{
+    cursor: pointer;
+    margin: 5px 0 5px 0;
+}
+
+#left3
+{
+    left: 3% !important;
+    color: white;
+}
+
+#left19
+{
+    left: 19% !important;
+    color: white;
+}

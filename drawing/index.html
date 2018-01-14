@@ -1,0 +1,295 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+  <title>Coloring</title> 
+  <link rel="stylesheet" href="style.css" type="text/css">
+  <link rel="shortcut icon" href="images/logo.png" type="image/png">
+  </head>
+  <body >
+  
+  <div id="canvascontainer" >
+ 
+    <canvas id="myCanvas" onclick="coloring(event)"></canvas>
+	<img id="myimg"  hidden />
+	</div>
+	<div id="divList" >
+	
+	<img id="img15"  class="mySlides"  src="images/15.jpg" onclick="changeImage(event)"  width="250" height="250" />
+	<img id="img14"  class="mySlides"  src="images/14.jpg" onclick="changeImage(event)"  width="250" height="250" />
+	<img id="img16"  class="mySlides"  src="images/16.jpg" onclick="changeImage(event)"  width="250" height="250" />
+	<img id="img17"  class="mySlides"  src="images/17.jpg" onclick="changeImage(event)"  width="250" height="250" />
+	<img id="img18"  class="mySlides"  src="images/18.jpg" onclick="changeImage(event)"  width="250" height="250" />
+	<img id="img19"  class="mySlides"  src="images/19.jpg" onclick="changeImage(event)"  width="250" height="250" />
+	<img id="img20"  class="mySlides" src="images/20.jpg" onclick="changeImage(event)"  width="250" height="250" />
+	<img id="img21"  class="mySlides" src="images/21.jpg" onclick="changeImage(event)"  width="250" height="250" />
+	<img id="img22"  class="mySlides" src="images/22.jpg" onclick="changeImage(event)"  width="250" height="250" />
+	<img id="img23"  class="mySlides" src="images/23.png" onclick="changeImage(event)"  width="250" height="250" />
+	<img id="img24"  class="mySlides" src="images/24.jpg" onclick="changeImage(event)"  width="250" height="250" />
+	<img id="img25"  class="mySlides" src="images/25.jpg" onclick="changeImage(event)"  width="250" height="250" />
+	<img id="img26"  class="mySlides" src="images/26.jpg" onclick="changeImage(event)"  width="250" height="250" />
+	<img id="img27"  class="mySlides" src="images/27.jpg" onclick="changeImage(event)"  width="250" height="250"/>
+	<img id="img28"  class="mySlides" src="images/28.jpg" onclick="changeImage(event)"  width="250" height="250"/>
+	<img id="img29"  class="mySlides" src="images/29.png" onclick="changeImage(event)"  width="250" height="250" />
+	<img id="img30"  class="mySlides" src="images/30.jpg" onclick="changeImage(event)"  width="250" height="250" />
+	<img id="img1"  class="mySlides" src="images/1.png" onclick="changeImage(event)"  width="250" height="250" />
+
+	<input type="button"  id="leftarr" onclick="plusDivs(-1)" class="glow-button" value="&#10094;" width="200" height="200"  style="box-shadow:#130104c7;">
+    <input type="button"  id="rightarr" onclick="plusDivs(1)" class="glow-button" value="&#10095;" width="200" height="200" style="position:relative;left:200px;box-shadow:#130104c7;">
+
+    </div>
+	<div id="selectedcolor">
+	<table id="mytable" >
+		<tr>
+			<td id="1" onclick="changeColor(event)"></td>
+			<td id="2" onclick="changeColor(event)"></td>
+			<td id="3" onclick="changeColor(event)"></td>
+		</tr>
+		<tr>
+			<td id="4" onclick="changeColor(event)"></td>
+			<td id="5" onclick="changeColor(event)"></td>
+			<td id="6" onclick="changeColor(event)"></td>
+		</tr>
+
+	</table>    
+	<input type="button"  id="cleftarr" onclick="cplusDivs(-1)" class="glow-button" value="&#10094;" width="200" height="200"  style="box-shadow:#130104c7;">
+    <input type="button"  id="crightarr" onclick="cplusDivs(1)" class="glow-button" value="&#10095;" width="200" height="200" style="position:relative;left:140px;box-shadow:#130104c7;">
+
+	</div>
+	</body>
+	<script>
+	/*//////////////////////colores/////////////////////////////////*/
+	
+	var mycolor="#ffe6ff";
+	var colorArray = [['#f0f0f0', '#c0ded9', '#c5d5c5', '#e3e0cc', ' #c0ded9', 
+		                            '#b2c2bf'],[ '#2e4045', '#83adb5', '#c7bbc9',
+		                            '#5e3c58', '#bfb5b2', '#dfdfde'],[ '#dfdfde', '#a2798f', 
+		                            '#d7c6cf', '#8caba8', '#ebdada', '#979aaa'],[ '#bbcbdb',
+		                             '#9ebd9e', '#dd855c', '#f1e8ca', '#745151', '#bfb5b2'], 
+		                              ['#dfdfde', '#d7c6cf', '#a2798f', '#ebdada', '#8caba8',
+		                             '#997a8d'], ['#99d5cf', '#8b8589', '#009688', '#f1e8ca', 
+		                            '#4D8066', '#bfb5b2'],[ '#a8e6cf', '#dcedc1', '#ffd3b6',
+		                            '#ffaaa5', '#ff8b94', '#f1e8ca'],[ '#4D80CC', '#9900B3', 
+		                             '#E64D66', '#4DB380', '#FF4D4D', '#99E6E6', '#6666FF']];
+	var tc= document.getElementById("mytable").getElementsByTagName("td");
+                   for(i=0;i<6;i++){
+                   tc[i].style.backgroundColor =colorArray[0][i] ;
+				   }
+    ////////////////////////changing color from table//////////////
+	function changeColor(ev){
+	 mycolor=document.getElementById(ev.target.id).style.backgroundColor;
+	 for(i=1;i<7;i++){
+	 document.getElementById(i).style.border="none";
+	 }
+	 document.getElementById(ev.target.id).style.border="1px solid";
+	}
+	///////////////////////////sliding colors//////////////////////////
+	colorIndex=1;
+	function cplusDivs(n) {
+        showcolors(colorIndex += n);
+    }
+    
+    function showcolors(n) {
+        var i;
+        colortable=document.getElementById("mytable");
+        if (n > 7) {colorIndex = 1;}
+        if (n < 1) {colorIndex = 7;}
+        for(i=0;i<6;i++){
+            tc[i].style.backgroundColor =colorArray[colorIndex-1][i] ;
+				   }
+}
+	/*-------------------------------------------------scrollview------------------------------------*/
+	var slideIndex = 1;
+	var leftarrow=document.getElementById('leftarr');
+    var rightarrow=document.getElementById('rightarr');
+	showDivs(slideIndex);
+
+    function plusDivs(n) {
+        showDivs(slideIndex += n);
+    }
+    
+    function showDivs(n) {
+        var i;
+        var xs = document.getElementsByClassName('mySlides');
+        
+        if (n > xs.length) {slideIndex = 1;}
+        if (n < 1) {slideIndex = xs.length;}
+        for (i = 0; i < xs.length; i++) {
+            xs[i].style.display = "none"; 
+        }
+        xs[slideIndex-1].style.display = "block"; 
+}
+	/*-------------------------------------------------scrollview------------------------------------*/
+	
+	var canvas = document.getElementById('myCanvas');
+	var canvasHeight=canvas.height;
+	var canvasWidth=canvas.width;
+    var ctx = canvas.getContext('2d');
+	var img=document.getElementById("myimg");
+	window.onload = function() {
+	  document.getElementById("myimg").src="images/14.jpg";
+	  document.getElementById("myCanvas").width=img.width;
+	  document.getElementById("myCanvas").height=img.height;
+	  ctx.drawImage(img,0,0);
+}
+function changeImage(ev){
+	ctx.clearRect(0,0,canvasWidth, canvasHeight);
+	var imgch=document.getElementById(ev.target.id);
+	img.src=document.getElementById(ev.target.id).src;
+	document.getElementById("myCanvas").width=img.width;
+	document.getElementById("myCanvas").height=img.height;
+	ctx.drawImage(img,0,0);
+	}
+    
+function coloring(e){
+	
+	var rect = canvas.getBoundingClientRect();
+	var x=e.pageX - rect.left;
+	var y=e.pageY - rect.top;
+    ctx.fillStyle = mycolor;
+	//floodfill(x,y);
+	main(x,y);
+  }
+	//Floodfill functions
+
+// main
+function main(x,y)
+{
+    var canvasSize = new Coords(canvasWidth,canvasHeight);
+ 
+    var graphics = canvas.getContext("2d");
+ 
+    graphics.fillStyle = mycolor;
+    graphics.floodFill(0,0, 0);
+}
+ 
+// extensions
+ 
+function CanvasRenderingContext2DExtensions()
+{
+    // extension class
+}
+{
+    CanvasRenderingContext2D.prototype.floodFill = function(x, y, colorDifferenceTolerance)
+    {    
+        var canvas = this.canvas;
+        var imageSize = new Coords(canvas.width, canvas.height);
+        var imageSizeMinusOnes = imageSize.clone().subtract(new Coords(1, 1));
+ 
+        var colorToFillOverRGBA = this.getImageData(x, y, 1, 1).data;
+        var pixelPos = new Coords(x, y);
+        var pixelIndexStart = pixelPos.y * imageSize.x + pixelPos.x;
+        var pixelIndicesToTest = [ pixelIndexStart ];
+        var pixelIndicesAlreadyTested = [];
+ 
+        var neighborOffsets = 
+        [
+            new Coords(-1, 0),
+            new Coords(1, 0),
+            new Coords(0, -1),
+            new Coords(0, 1)
+        ];
+ 
+        while (pixelIndicesToTest.length > 0)
+        {
+            var pixelIndex = pixelIndicesToTest[0];
+            pixelIndicesToTest.splice(0, 1);
+            pixelIndicesAlreadyTested[pixelIndex] = pixelIndex;
+ 
+            pixelPos.x = pixelIndex % imageSize.x;
+            pixelPos.y = Math.floor(pixelIndex / imageSize.x);
+ 
+            var pixelRGBA = this.getImageData(pixelPos.x, pixelPos.y, 1, 1).data;
+            var pixelDifference = Math.abs
+            (
+                pixelRGBA[0] - colorToFillOverRGBA[0]
+                + pixelRGBA[1] - colorToFillOverRGBA[1]
+                + pixelRGBA[2] - colorToFillOverRGBA[2]
+            );
+ 
+            if (pixelDifference <= colorDifferenceTolerance)
+            {
+                this.fillRect(pixelPos.x, pixelPos.y, 1, 1);
+ 
+                var neighborPos = new Coords();
+ 
+                for (var n = 0; n < neighborOffsets.length; n++)
+                {
+                    var neighborOffset = neighborOffsets[n];
+ 
+                    neighborPos.overwriteWith
+                    (
+                        pixelPos
+                    ).add
+                    (
+                        neighborOffset
+                    );
+ 
+                    if (neighborPos.isInRange(imageSize) == true)
+                    {
+                        var neighborIndex = 
+                            neighborPos.y * imageSize.x + neighborPos.x;
+                        var isPixelIndexAlreadyUnderConsideration = 
+                        (
+                            pixelIndicesToTest.indexOf(neighborIndex) >= 0 
+                            || pixelIndicesAlreadyTested[neighborIndex] != null
+                        )  
+                        if (isPixelIndexAlreadyUnderConsideration == false)
+                        {
+                            pixelIndicesToTest.push(neighborIndex);
+                        }
+                    }
+                }
+            }                
+        }
+    }
+}
+ 
+// classes
+ 
+function Coords(x, y)
+{
+    this.x = x;
+    this.y = y;
+}
+{
+    Coords.prototype.add = function(other)
+    {
+        this.x += other.x;
+        this.y += other.y;
+        return this;
+    }
+ 
+    Coords.prototype.clone = function()
+    {
+        return new Coords(this.x, this.y);
+    }
+ 
+    Coords.prototype.isInRange = function(max)
+    {
+        var returnValue = 
+        (
+            this.x >= 0 
+            && this.x <= max.x
+            && this.y >= 0 
+            && this.y <= max.y
+        );
+        return returnValue;
+    }
+ 
+    Coords.prototype.overwriteWith = function(other)
+    {
+        this.x = other.x;
+        this.y = other.y;
+        return this;
+    }
+ 
+    Coords.prototype.subtract = function(other)
+    {
+        this.x -= other.x;
+        this.y -= other.y;
+        return this;
+    }
+}
+    </script>
+  
+</html>      

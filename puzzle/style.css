@@ -1,0 +1,100 @@
+body
+{
+    background-image: url(background.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+
+.jqPuzzle
+{
+    height: 520px !important;
+}
+
+#picture
+{
+    border: none;
+}
+
+h2
+{
+    color: white;
+}
+.overlay
+{
+    position: absolute;
+    background-color: rgba(0, 0, 0, .6);
+    top: 0;
+    left: 0;
+}
+
+#picture .jqp-controls a
+{
+
+    background: #b35b86;
+  background-image: -webkit-linear-gradient(top, #b35b86, #634855);
+  background-image: -moz-linear-gradient(top, #b35b86, #634855);
+  background-image: -ms-linear-gradient(top, #b35b86, #634855);
+  background-image: -o-linear-gradient(top, #b35b86, #634855);
+  background-image: linear-gradient(to bottom, #b35b86, #634855);
+  -webkit-border-radius: 14;
+  -moz-border-radius: 14;
+  border-radius: 14px;
+  font-family: Georgia;
+  color: #ffffff;
+  font-size: 17px;
+  padding: 7px 20px 10px 20px;
+  border: solid #ff00ff 2px;
+  text-decoration: none;
+    cursor: pointer !important;
+}
+
+#picture .jqp-controls a:hover {
+    background: #3cb0fd;
+  background-image: -webkit-linear-gradient(top, #3cb0fd, #3498db);
+  background-image: -moz-linear-gradient(top, #3cb0fd, #3498db);
+  background-image: -ms-linear-gradient(top, #3cb0fd, #3498db);
+  background-image: -o-linear-gradient(top, #3cb0fd, #3498db);
+  background-image: linear-gradient(to bottom, #3cb0fd, #3498db);
+  text-decoration: none;
+}
+
+.jqPuzzle .jqp-controls span
+{
+    padding: 15px 0 20px 0;
+}
+
+.dim
+{
+    background: #000;
+    opacity: .4;
+    position: absolute;
+    z-index: 999;
+}
+
+.end
+{
+    position: absolute;
+    top: 33%;
+    left: 35%;
+    text-align: center;
+    background: blueviolet;
+    padding: 50px;
+    border: 2px solid #000;
+    z-index: 9999;
+
+}
+.end h2
+{
+    color: white;
+    font-family: sans-serif;
+    padding-bottom: 30px;
+}
+
+.end button
+{
+    padding: 5px;
+    margin: 5px;
+    border: none;
+    cursor: pointer;
+}

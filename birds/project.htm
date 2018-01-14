@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+
+<head>
+    <link rel="stylesheet" href="includes/css/style.css">
+    <link rel="stylesheet" href="includes/css/bootstrap.min.css">
+    <link rel="shortcut icon" type="image/png" href="includes/bird.gif">
+    <script src="includes/jq.js"></script>
+    <style>
+        canvas {
+            border: 1px solid #d3d3d3;
+            background-color: #f1f1f1;
+            position: absolute;
+            z-index: 0;
+        }
+    </style>
+</head>
+
+<body>
+
+
+
+
+    <body onload="startGame();getData();start();" id="wrapper">
+        <img src="includes/bird.gif" alt="" class="bird" id="bird">
+        <img src="includes/enemy.png" id="enemy1" class="enemy">
+        <img src="includes/enemy.png" id="enemy2" class="enemy">
+        <img src="includes/enemy.png" id="enemy3" class="enemy">
+        <img src="includes/enemy.png" id="enemy4" class="enemy">
+        <img src="includes/enemy.png" id="enemy5" class="enemy">
+        <img src="includes/enemy.png" id="enemy6" class="enemy">
+        <img src="includes/enemy.png" id="enemy7" class="enemy">
+        <img src="includes/enemy.png" id="enemy8" class="enemy">
+        <img src="includes/enemy.png" id="enemy9" class="enemy">
+        <img src="includes/enemy.png" id="enemy10" class="enemy">
+        <img src="includes/enemy.png" id="enemy11" class="enemy">
+        <img src="includes/enemy.png" id="enemy12" class="enemy">
+        <img src="includes/enemy.png" id="enemy13" class="enemy">
+        <img src="includes/enemy.png" id="enemy14" class="enemy">
+        <img src="includes/enemy.png" id="enemy15" class="enemy">
+        <img src="includes/enemy.png" id="enemy16" class="enemy">
+        <div class="score">Score : <span id="score">0</span></div>
+   
+        <script>
+            
+
+
+            // game
+
+            counter = 0;
+            counter_game = 5;
+            counterEnemy = 1;
+            score = 0;
+            level = 0;
+
+            
+
+            function getData(){
+                level = window.localStorage.getItem("level", level);
+                if(!level){
+                    level=0;
+                    window.localStorage.setItem("level", level);
+                } else {
+                    level=parseInt(level);
+                }
+                console.log(level);
+            }
+            
+
+
+            function start(){
+                // display Level info
+                if(level > 0){
+                    var dimDiv = document.createElement("div");
+                    dimDiv.setAttribute("class", "dim");
+                    dimDiv.style.height = window.innerHeight + 'px';
+                    dimDiv.style.width = window.innerWidth + 'px';
+                    document.getElementById("wrapper").appendChild(dimDiv);
+                    var endGame = document.createElement("div");
+                    endGame.setAttribute("class", "end");
+                    endGame.setAttribute("id", "left3");
+                    birdShoots = null;
+                    endGame.innerHTML = '<h3>Level : ' + level + '</h3>';
+                    endGame.innerHTML += "<h4>Alright Major: The war is getting intense, We heard the enemy is getting more troops. \n We're Counting on You<h4>";
+                    endGame.innerHTML += '<h6>This note will self-destruct in 5 seconds<h6>';
+
+                    if(level >= 2){
+                        endGame.innerHTML = '<h3>Level : ' + level + '</h3>';
+                        endGame.innerHTML += "<h4>Alright Major: The war is getting intense, We heard the enemy is getting more troops. \n We're Counting on You<h4>";
+                        endGame.innerHTML += '<h5>This note will self-destruct in 5 seconds<h5>';
+                        endGame.innerHTML += '<h6>Ps: We added a little something extra to your ship. <br> We hope it helps.<h6>';
+                    }
+                    document.getElementById("wrapper").appendChild(endGame);
+                    var myTim = setTimeout(function(){ 
+                        document.getElementById("wrapper").removeChild(dimDiv);
+                        document.getElementById("wrapper").removeChild(endGame);
+                        game();
+                        
+                    },5000 );
+                    
+                }else{
+                    startZero();
+                }
+                
+            }
+
+
+            function startZero(){
+                // display Level info
+                var dimDiv = document.createElement("div");
+                dimDiv.setAttribute("class", "dim");
+                dimDiv.style.height = window.innerHeight + 'px';
+                dimDiv.style.width = window.innerWidth + 'px';
+                document.getElementById("wrapper").appendChild(dimDiv);
+                var endGame = document.createElement("div");
+                endGame.setAttribute("class", "end");
+                endGame.setAttribute("id", "left19");
+                birdShoots = null;
+                endGame.innerHTML = '<h3>Level : ' + level + '</h3>';
+                endGame.innerHTML += "<h4>Major: You're now on a sacred mission to save our galaxy \n Godspeed!<h4>";
+                endGame.innerHTML += '<h6>This note will self-destruct in 5 seconds<h6>';
+                document.getElementById("wrapper").appendChild(endGame);
+                
+                var myTim = setTimeout(function(){
+                    document.getElementById("wrapper").removeChild(dimDiv);
+                    document.getElementById("wrapper").removeChild(endGame);
+                    game();                
+                },5000 );
+                                    
+                
+            }
+
+            function game(){
+            
+
+            var enemySrc = "includes/enemy.png";
+            var bulletSrc = "includes/arrow.png";
+            var birdSrc = "includes/bird.png";
+            if(level >= 2 && level < 4){
+                enemySrc = "includes/devil.png";
+                bulletSrc = "includes/miss.png";
+                document.getElementById("bird").setAttribute("src", "includes/greenbird.png");
+            }
+            if(level >= 4){
+                enemySrc = "includes/bat.png";
+                bulletSrc = "includes/missile.png";
+                document.getElementById("bird").setAttribute("src", "includes/dragon.png");
+                document.getElementById("bird").style.width = 130+ 'px';
+                document.getElementById("bird").style.height = 130+ 'px';
+            }
+
+            setEnemySrc();enemyShow();  
+        
+            // movement 
+
+            $("#wrapper").keydown(function(event) {
+                var $mover = $("#bird");
+                //if nothing else will move "mover", then track the 
+                //position instead of recalculating it every time:
+                //   var moverPos = $mover.position();
+                //   var left = moverPos.left;
+                //   var top = moverPos.top;
+                var addTop = function(diff) {
+                    $mover.css("top", ($mover.position().top + diff) + "px");
+                    //if using tracked position:
+                    //   top += diff;
+                    //   $mover.css("top", top) + "px");
+                };
+                var addLeft = function(diff) {
+                    $mover.css("left", ($mover.position().left + diff) + "px");
+                    //if using tracked position:
+                    //   left += diff;
+                    //   $mover.css("left", left) + "px");
+                };
+
+                switch (event.keyCode) {
+                    case 37: //left
+                    if(!($mover.position().left<= 0)){
+                        addLeft(-10);
+                        break;
+                    }break;
+                    case 38: //up
+                    if(!($mover.position().top<= 0)){
+                        addTop(-10);
+                        break;
+                    }break;
+                    case 39: //right
+                    if(!($mover.position().left>= window.innerWidth)){
+                        addLeft(10);
+                        break;
+                    }break;
+                    case 40: //down
+                    if(!($mover.position().top>= window.innerHeight - 120)){
+                        addTop(10);
+                        break;
+                    }
+                    break;
+                }
+            });
+
+            var space = false;
+            $(function() {
+                $(document).keyup(function(evt) {
+                    if (evt.keyCode == 32) {
+                        space = false;
+                        birdShoots();
+                    }
+                }).keydown(function(evt) {
+                    if (evt.keyCode == 32) {
+                        space = true;
+                        audioBullet = new Audio('includes/audio_file_bul.mp3');
+                        
+                        
+
+                    }
+                });
+            });
+
+
+            // shooting bullet of bird
+
+            function birdShoots(){
+                audioBullet.play();
+                var bulletImg = document.createElement("img");
+                bulletImg.setAttribute("src", bulletSrc);
+                bulletImg.setAttribute("class", "bullet");
+                bulletImg.setAttribute("id", counter);
+                bulletImg.style.position = 'absolute';
+
+                document.getElementById("wrapper").appendChild(bulletImg);
+                // get position of bird to set position of bullets
+                var bird = document.getElementById("bird");
+                var left = getOffset(bird).left;
+                var top = getOffset(bird).top;
+
+                // set poisiton of bullets
+                var bullet = document.getElementById(counter);
+                bullet.style.position = "absolute";
+                bullet.style.left = left + 60 + 'px';
+                bullet.style.top = top + 60 + 'px';
+                console.log(bullet.style.left);
+                
+                moveBullets(bullet);
+
+                counter++;
+                
+            }
+
+            // move the bullets to end of the screen
+            function moveBullets(bullet) {
+
+
+                var pos = bullet.offsetLeft;
+
+                
+                console.log(i);
+
+                myVar = setInterval(function() {
+
+                    bullet.style.left = pos+ 'px';
+                    
+                    pos += 30;
+                    if (pos > window.innerWidth - 30) {
+                        
+                        flag_bull = bullet.offsetLeft;
+                        // remove bullet once it reaches end of the screen
+                        try {
+                            document.getElementById("wrapper").removeChild(bullet);
+                        } catch (error) {
+                            // set i = 0 to end the loop    
+                        }   
+                    }                    
+                }, 100);
+
+                
+                for(var i = 1; i<counter_game + level; i++){
+                    var enemy = document.getElementById("enemy"+i);
+                    collision(bullet, enemy);                       
+                }
+                
+
+            }
+
+
+            // Check for collision
+
+            function collision(el, en) {
+
+                var moving = false;
+                var en_moving = false;
+                var collid = false;
+                el.className = el.className + " move-right";
+                en.className = en.className + " move-right";
+                el.addEventListener('transitionend', function() {
+                    moving = true;
+                });
+                /*en.addEventListener('transitionend', function () {
+                    en_moving = true;
+                });*/
+
+                function getPosition() {
+                    var rect = el.getBoundingClientRect();
+                    var top = rect.top;
+                    if (!moving) {
+                        window.requestAnimationFrame(getPosition);
+
+
+                    }
+                    if ((el.getBoundingClientRect().top < en.getBoundingClientRect().bottom && el.getBoundingClientRect().top > en.getBoundingClientRect().top)) {
+
+                        if (el.getBoundingClientRect().right > en.getBoundingClientRect().left + 35) {
+                            // kill enemy
+                            el.style.display = "none";
+                            var audio = new Audio('includes/audio_file.mp3');
+                            audio.play();
+                            en.setAttribute("src", "includes/blood.png");
+                            
+                            var myTim = setTimeout(function(){
+                                en.style.display = 'none';
+                            }, 200);
+                            
+                            score++;
+                            document.getElementById("score").innerText = score;
+                            if(score == (counter_game  + level)- 1){
+                                
+                                var myTim = setTimeout(function(){
+                                var dimDiv = document.createElement("div");
+                                dimDiv.setAttribute("class", "dim");
+                                dimDiv.style.height = window.innerHeight + 'px';
+                                dimDiv.style.width = window.innerWidth + 'px';
+                                document.getElementById("wrapper").appendChild(dimDiv);
+                                var endGame = document.createElement("div");
+                                endGame.setAttribute("class", "end");
+                                birdShoots = null;
+                                
+          
+                                level++;
+                                window.localStorage.setItem("level", level);
+                
+                                endGame.innerHTML = '<div><h2>LEVEL COMPLETE</h2><a class="btn btn-primary form-control" onclick="window.location.reload();">NEXT LEVEL</a><a href="../index.html" class="btn btn-danger form-control">Go Back to HomePage</a></div>';
+                                document.getElementById("wrapper").appendChild(endGame);
+
+                            }, 400);
+                                
+                            }
+
+                        }
+                    }
+                }
+
+                function en_getPosition() {
+                    var rect_en = en.getBoundingClientRect();
+                    en_top = rect_en.top;
+                    if (!en_moving) {
+                        window.requestAnimationFrame(en_getPosition);
+
+                    }
+                }
+                window.requestAnimationFrame(getPosition);
+                window.requestAnimationFrame(en_getPosition);
+                var pos_bu = window.requestAnimationFrame(getPosition);
+                var pos_en = window.requestAnimationFrame(en_getPosition);
+
+            }
+
+
+            // check for collision between enemy abd bird
+            // Check for collision
+
+            function collisionEnemyBird(el, en) {
+
+                var moving = false;
+                var en_moving = false;
+                var collid = false;
+                el.className = el.className + " move-right";
+                en.className = en.className + " move-right";
+                el.addEventListener('transitionend', function() {
+                    moving = true;
+                });
+                /*en.addEventListener('transitionend', function () {
+                    en_moving = true;
+                });*/
+
+                function getPosition() {
+                    var rect = el.getBoundingClientRect();
+                    var top = rect.top;
+                    if (!moving) {
+                        window.requestAnimationFrame(getPosition);
+
+
+                    }
+                    if ((el.getBoundingClientRect().top < en.getBoundingClientRect().bottom && el.getBoundingClientRect().top > en.getBoundingClientRect().top)|| (el.getBoundingClientRect().bottom > en.getBoundingClientRect().top && el.getBoundingClientRect().bottom < en.getBoundingClientRect().bottom)) {
+
+                        if ((el.getBoundingClientRect().right <= en.getBoundingClientRect().right) && (el.getBoundingClientRect().right >= en.getBoundingClientRect().left)) {
+                            // kill enemy
+                            el.style.display = "none";
+                            var audio = new Audio('includes/audio_file.mp3');
+                            audio.play();
+                            en.setAttribute("src", "includes/blood.png");
+                            var myTim = setTimeout(function(){
+                                en.style.display = 'none';
+                            }, 200);
+                            birdShoots = null;
+                            var myTim = setTimeout(function(){
+                                var dimDiv = document.createElement("div");
+                                dimDiv.setAttribute("class", "dim");
+                                dimDiv.style.height = window.innerHeight + 'px';
+                                dimDiv.style.width = window.innerWidth + 'px';
+                                document.getElementById("wrapper").appendChild(dimDiv);
+                                var endGame = document.createElement("div");
+                                endGame.setAttribute("class", "end");
+                                window.localStorage.setItem("level", 0);
+                                endGame.innerHTML = '<div><h2>Game Over</h2><a class="btn btn-primary form-control" onclick="window.location.reload();">Restart Game</a><a href="../index.html" class="btn btn-danger form-control">Go Back to HomePage</a></div>'
+                                document.getElementById("wrapper").appendChild(endGame);
+                            }, 400);
+                        }
+                    }
+                }
+
+                function en_getPosition() {
+                    var rect_en = en.getBoundingClientRect();
+                    en_top = rect_en.top;
+                    if (!en_moving) {
+                        window.requestAnimationFrame(en_getPosition);
+
+                    }
+                }
+                window.requestAnimationFrame(getPosition);
+                window.requestAnimationFrame(en_getPosition);
+                var pos_bu = window.requestAnimationFrame(getPosition);
+                var pos_en = window.requestAnimationFrame(en_getPosition);
+
+                }
+
+
+
+
+
+
+
+
+
+
+
+            
+            
+            function setEnemySrc(){
+                arrEnemy= document.getElementsByClassName("enemy");
+                for(var i = 0; i<arrEnemy.length; i++){
+                    arrEnemy[i].setAttribute("src", enemySrc);
+                }
+            }
+            
+            
+            
+            // introduce enemy
+
+            function enemyShow(){
+                arrEnemy= document.getElementsByClassName("enemy");
+                for(var i = 0; i<arrEnemy.length ; i++ ){
+                    arrEnemy[i].style.visibility = 'hidden';
+                }
+
+                c = document.createDocumentFragment();
+                for(var i = 1; i<counter_game + level ; i++){
+                    var enemy = document.getElementById("enemy"+i);
+                    enemy.style.visibility = 'visible';
+                    enemy.style.top = (Math.random() * 400) + 'px';
+                    enemy.style.right = (Math.random() * 400) + 'px'; 
+                    moveEnemy(enemy);                   
+                }
+            }
+
+
+
+
+            function moveEnemy(enemy){
+                
+                var pos = enemy.offsetLeft;
+
+
+                myVar = setInterval(function() {
+                    enemy.style.left = Math.random() * 70 +pos - 120 + 'px';
+                    pos -= 35;
+                    
+                    if(pos < 0 ){
+                        enemy.style.left = window.innerWidth - 120 + 'px';
+                        pos = enemy.offsetLeft;
+                        enemy.style.top = Math.random() * 500 + 'px';
+                    }
+
+                    
+                }, 200);
+                
+                for(var i = 1; i<counter_game + level ; i++){
+
+                    var bird = document.getElementById("bird");
+                    collisionEnemyBird(bird,enemy );                      
+                }
+                
+            }
+
+
+            
+            
+
+           // helper functions
+           // get position of bird to set position of bullet
+           function getOffset(el) {
+                el = el.getBoundingClientRect();
+                return {
+                    left: el.left + window.scrollX,
+                    top: el.top + window.scrollY
+                }
+            }
+
+            }
+
+
+
+            // game background
+            var myGamePiece;
+            var myBackground;
+
+            var background = "includes/background.jpg";
+            console.log(level);
+
+            var newLev = window.localStorage.getItem("level");
+            if(!newLev){
+                newLev = 0;
+            }else{
+                newLev = parseInt(window.localStorage.getItem("level"));
+            }
+            if(newLev >= 2){
+                background = "includes/background2.jpg";
+                if(newLev >= 4){
+                    background = "includes/background3.png";
+                }
+            }
+
+            function startGame() {
+
+                myBackground = new component(window.innerWidth, window.innerHeight, background, 0, 0, "background");
+                myGameArea.start();
+            }
+
+            var myGameArea = {
+                canvas: document.createElement("canvas"),
+                start: function() {
+                    this.canvas.width = window.innerWidth - 2;
+                    this.canvas.height = window.innerHeight - 2;
+                    this.context = this.canvas.getContext("2d");
+                    document.body.insertBefore(this.canvas, document.body.childNodes[0]);
+                    this.frameNo = 0;
+                    this.interval = setInterval(updateGameArea, 20);
+                },
+                clear: function() {
+                    this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+                },
+                stop: function() {
+                    clearInterval(this.interval);
+                }
+            }
+
+            function component(width, height, color, x, y, type) {
+                this.type = type;
+                if (type == "image" || type == "background") {
+                    this.image = new Image();
+                    this.image.src = color;
+                }
+                this.width = width;
+                this.height = height;
+                this.speedX = 0;
+                this.speedY = 0;
+                this.x = x;
+                this.y = y;
+                this.update = function() {
+                    ctx = myGameArea.context;
+                    if (type == "image" || type == "background") {
+                        ctx.drawImage(this.image,
+                            this.x,
+                            this.y,
+                            this.width, this.height);
+                        if (type == "background") {
+                            ctx.drawImage(this.image,
+                                this.x + this.width,
+                                this.y,
+                                this.width, this.height);
+                        }
+                    } else {
+                        ctx.fillStyle = color;
+                        ctx.fillRect(this.x, this.y, this.width, this.height);
+                    }
+                }
+                this.newPos = function() {
+                    this.x += this.speedX;
+                    this.y += this.speedY;
+                    if (this.type == "background") {
+                        if (this.x == -(this.width)) {
+                            this.x = 0;
+                        }
+                    }
+                }
+            }
+
+            function updateGameArea() {
+                myGameArea.clear();
+                myBackground.speedX = -1;
+                myBackground.newPos();
+                myBackground.update();
+
+
+            }
+
+        </script>
+
+
+
+    </body>
+
+    </html>

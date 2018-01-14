@@ -1,0 +1,43 @@
+<html>
+
+<head>
+
+    <script src="http://code.jquery.com/jquery-1.9.0.js"></script>
+    <script src="http://code.jquery.com/jquery-migrate-1.2.1.js"></script>
+    <script type="text/javascript" src="jquery.jqpuzzle.min.js"></script>
+    <script type="text/javascript" src="1.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="jquery.jqpuzzle.css" />
+    <link rel="stylesheet" type="text/css" href="bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="style.css" />
+    <link rel="shortcut icon" type="image/png" href="brain.png" />
+    <title>
+        Puzzle
+    </title>
+</head>
+
+<body id="wrapper">
+    <div class="overlay" id="overlay">
+        <h2>
+            <center>Test Your Skills</center>
+        </h2>
+        <center>
+            <img id="picture" alt="No image Found" width="40" height="40"/>
+        </center>
+    </div>
+
+    <script>
+        document.getElementById("overlay").style.height = window.innerHeight + 'px';
+        document.getElementById("overlay").style.width = window.innerWidth + 'px';
+
+        var anchors = document.getElementsByTagName('a');
+
+        for (var idx= 0; idx < anchors.length; ++idx){
+            var element = anchors[idx];
+            element.classList.add("btn btn-primary");
+        }
+    </script>
+</body>
+
+
+</html>

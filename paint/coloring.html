@@ -1,0 +1,59 @@
+<html>
+	<head>
+		<title>HTML5 Canvas Drawing</title>
+		
+		<link rel="stylesheet" href="includes/style.css">
+		<link rel="shortcut icon" type="image/png" href="includes/paint.png">
+	</head>
+	<body id="body" style="margin: 0">
+        <div class="return"><a href="../index.html">Back to HomePage</a></div>
+		<div id="toolbar">
+			<div id="rad">
+				Radius <span id="radval">10</span>
+				<div id="decrad" class="radcontrol">-</div>
+				<div id="incrad" class="radcontrol">+</div>
+			</div>
+			<div id="colors"></div>
+			<div id="clear">Clear</div>
+        </div>
+        
+		<canvas id='canvas' style="display: block;">
+            Looks like your browser doesn't support canvas!
+            
+        </canvas>
+        <div class="images_list">
+               
+            <img id="formula1" class="mySlides glow-button2" src="includes/how-to-draw-Batman-for-Kids-step-0.png" alt="red" width="400" height="400" style="box-shadow:#130104c7;">
+            <img id="formula2" class="mySlides glow-button2" src="includes/how-to-draw-Caterpillar-for-Kids-step-0.png" alt="blue" width="400" height="400" style="box-shadow:  #021924c7"><br>
+            <img id="race1" class="mySlides glow-button2" src="includes/how-to-draw-Computers-for-Kids-step-0.png" alt="red" width="400" height="400">
+            <img id="race2" class="mySlides glow-button2" src="includes/how-to-draw-Cute-Dinosaur-for-Kids-step-0.png" alt="blue" width="400" height="400">
+            <img id="race1" class="mySlides glow-button2" src="includes/how-to-draw-Fish-step-0.png" alt="red" width="400" height="400">
+            <img id="race2" class="mySlides glow-button2" src="includes/includes/how-to-draw-Motorcycle-for-Kids-step-0.png" alt="blue" width="400" height="400">
+            <img id="race1" class="mySlides glow-button2" src="includes/how-to-draw-Ship-for-Kids-step-0.png" alt="red" width="400" height="400">
+            <img id="race2" class="mySlides glow-button2" src="includes/3.png" alt="blue" width="400" height="400">
+
+            <input type="button"  id="leftarr" class="glow-button" value="&#10094;" >
+            <input type="button"  id="rightarr" class="glow-button" value="&#10095;" >
+            <input type="button" name="save" id="save" value="save" class="button" onclick="save();setOverlay();">
+            <br><br>
+        </div>
+
+
+
+        <div >
+
+        	
+        	
+        </div>
+            <div id="savetext" >Click to the image to download it.</div>
+            <input type="button" name="button" class="button" id="button" value="back" onclick="back()" style="position: absolute; top:90%;left:33%;display: none; z-index: 9999;">
+        <a  download="w3logo" id="d">
+        	<img id="canvasimg" style="position: absolute; top:20%;left:33%; display:none;background-color: #fff;z-index: 9999;" width="400" height="400" onclick="back();" >
+    	</a>
+
+        <script src="includes/jquery.min.js"></script>
+        <script src="includes/script.js"></script>
+        
+		
+	</body>
+</html>
