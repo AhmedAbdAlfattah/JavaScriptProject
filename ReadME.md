@@ -22,4 +22,7 @@ for non-commercial use.
 Visit our repo:
 https://github.com/AhmedAbdAlfattah/JavaScriptProject
 
+Visit Our Website (Live Demo);
+https://ahmedabdalfattah.github.io/Magic-Corner/index.html
+
 We're glad to add any usefull commits.
